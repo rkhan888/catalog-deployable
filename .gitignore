@@ -1,0 +1,7 @@
+.pyc
+/*.pyc
+
+.db/*.db
+/loginHandler.py
+/loginHandler.pyc
+/__pycache__

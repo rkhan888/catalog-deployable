@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='style.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <title>Catalog App</title>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="{{url_for('showCategories')}}" class="navbar-brand">Catalog</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="{{url_for('showCategories')}}">Home</a></li>
+      <li><a id="addItem" href="{{url_for('addItem')}}">Add Item</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a id="logout" href="{{url_for('disconnect')}}"><span class="glyphicon glyphicon-log-out"></span> {{login_session['username']}}</a></li>
+        <li><img id="userimg" class="img-circle" src="{{login_session['picture']}}" width="30" height="30"></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+    <h1>Add Item</h1>
+
+    <div class="row-eq-height">
+        <div class="col-sm-12">
+            <form action="{{url_for('addItem')}}" method="POST">
+                <h4>Category Name</h4>
+                <input type="radio" id="existingCatRadio" onclick="enableOptions()" name="category" required>Existing Category:
+                <select id="existingCat" name="catName" disabled>
+                {% for a in allCats %}
+                  <option value="{{a.name}}">{{a.name}}</option>
+                {% endfor %}
+                </select><br>
+
+                <br>
+                <input type="radio" id="newCatRadio" onclick="enableOptions()" name="category" required>New Category:
+                <input type="text" id="newCat" name="catName" disabled required><br>
+
+                <br>
+                <h4>Item Title</h4>
+                <input type="text" name="name" required><br>
+
+                <br>
+                <h4>Item Description</h4>
+                <input type="text" name="desc" required>
+
+                <input type="submit" value="Create">
+            </form>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+
+            {% for message in messages %}
+            <div class="row-eq-height">
+                <div class="col-sm-12">
+                    <strong> {{ message }} </strong>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% endif %}
+            {% endwith %}
+
+            <br><a href="{{url_for('showCategories')}}">Cancel</a><br>
+        </div>
+    </div>
+        <script>
+        function enableOptions() {
+            if(document.getElementById('existingCatRadio').checked)
+            {
+                document.getElementById("existingCat").disabled = false;
+                document.getElementById("newCat").disabled = true;
+            }
+            else if(document.getElementById('newCatRadio').checked)
+            {
+                document.getElementById("existingCat").disabled = true;
+                document.getElementById("newCat").disabled = false;
+            }
+        }
+        </script>
+</div>
+</body>
+</html>
