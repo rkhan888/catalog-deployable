@@ -51,9 +51,9 @@ def fbconnect():
     access_token = request.data
     print("FB access token received %s ") % access_token
 
-    app_id = json.loads(open('fb_client_secrets.json', 'r')
+    app_id = json.loads(open('/var/www/CatalogApp/CatalogApp/fb_client_secrets.json', 'r')
                         .read())['web']['app_id']
-    app_secret = json.loads(open('fb_client_secrets.json', 'r')
+    app_secret = json.loads(open('/var/www/CatalogApp/CatalogApp/fb_client_secrets.json', 'r')
                             .read())['web']['app_secret']
     url = 'https://graph.facebook.com/oauth/access_token?grant_' \
           'type=fb_exchange_token&client_id=%s&' \
