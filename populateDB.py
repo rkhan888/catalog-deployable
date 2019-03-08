@@ -1,9 +1,10 @@
+#!/usr/bin/python3
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
 from catalogModels import Category, Item, Base, User
 
-engine = create_engine('sqlite:///catalog.db')
+engine = create_engine('sqlite:////var/www/CatalogApp/CatalogApp/catalog.db')
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine
@@ -35,15 +36,15 @@ session = DBSession()
 #     print(c.name)
 
 
-cat_rows_deleted = session.query(Category).delete()
-item_rows_deleted = session.query(Item).delete()
-user_rows_deleted = session.query(User).delete()
-session.commit()
+#cat_rows_deleted = session.query(Category).delete()
+#item_rows_deleted = session.query(Item).delete()
+#user_rows_deleted = session.query(User).delete()
+#session.commit()
 
 print("=============================")
-print("cat_rows_deleted: %s" % cat_rows_deleted)
-print("item_rows_deleted: %s" % item_rows_deleted)
-print("user_rows_deleted: %s" % user_rows_deleted)
+#print("cat_rows_deleted: %s" % cat_rows_deleted)
+#print("item_rows_deleted: %s" % item_rows_deleted)
+#print("user_rows_deleted: %s" % user_rows_deleted)
 print("=============================")
 
 

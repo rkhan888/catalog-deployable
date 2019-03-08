@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from flask import Flask, render_template, request, redirect, url_for, flash, \
     jsonify
 from sqlalchemy import create_engine, func
@@ -19,13 +20,13 @@ import json
 from flask import make_response
 import requests
 
-engine = create_engine('sqlite:///catalog.db')
+engine = create_engine('sqlite:////var/www/CatalogApp/CatalogApp/catalog.db')
 Base.metadata.bind = engine
-DBSession = sessionmaker(bind=engine)
+
 
 app = Flask(__name__)
 
-CLIENT_ID = json.loads(open('client_secrets.json', 'r')
+CLIENT_ID = json.loads(open('/var/www/CatalogApp/CatalogApp/client_secrets.json', 'r')
                        .read())['web']['client_id']
 APPLICATION_NAME = "Catalog App"
 # print("---clientID: " + CLIENT_ID)
@@ -300,6 +301,7 @@ def disconnect():
 
 
 def createUser(login_session):
+    DBSession = sessionmaker(bind=engine)
     session = DBSession()
 
     newUser = User(name=login_session['username'], email=login_session[
@@ -311,6 +313,7 @@ def createUser(login_session):
 
 
 def getUserInfo(user_id):
+    DBSession = sessionmaker(bind=engine)
     session = DBSession()
 
     user = session.query(User).filter_by(id=user_id).one()
@@ -318,6 +321,7 @@ def getUserInfo(user_id):
 
 
 def getUserID(email):
+    DBSession = sessionmaker(bind=engine)
     session = DBSession()
 
     try:
@@ -330,6 +334,7 @@ def getUserID(email):
 @app.route("/")
 @app.route("/catalog")
 def showCategories():
+    DBSession = sessionmaker(bind=engine)
     session = DBSession()
 
     categories = session.query(Category).all()
@@ -347,6 +352,7 @@ def showCategories():
 
 @app.route("/catalog/<category>/items")
 def showItems(category):
+    DBSession = sessionmaker(bind=engine)
     session = DBSession()
 
     items = session.query(Item).filter_by(cat_name=category).all()
@@ -363,6 +369,7 @@ def showItems(category):
 
 @app.route("/catalog/<category>/<item>")
 def itemInfo(category, item):
+    DBSession = sessionmaker(bind=engine)
     session = DBSession()
 
     item = session.query(Item).filter(func.lower(Item.name) == func.lower(
@@ -391,6 +398,7 @@ def addItem():
     if "username" not in login_session:
         return redirect(url_for("showLogin"))
 
+    DBSession = sessionmaker(bind=engine)
     session = DBSession()
 
     allCats = session.query(Category).all()
@@ -445,6 +453,7 @@ def editItem(category, item):
     if "username" not in login_session:
         return redirect(url_for("showLogin"))
 
+    DBSession = sessionmaker(bind=engine)
     session = DBSession()
 
     itemToEdit = session.query(Item).\
@@ -479,6 +488,7 @@ def deleteItem(category, item):
     if "username" not in login_session:
         return redirect(url_for("showLogin"))
 
+    DBSession = sessionmaker(bind=engine)
     session = DBSession()
 
     itemToDelete = session.query(Item)\
@@ -502,6 +512,7 @@ def deleteItem(category, item):
 
 @app.route("/catalog/<category>/<item>/json")
 def showSpecificJson(category, item):
+    DBSession = sessionmaker(bind=engine)
     session = DBSession()
 
     try:
@@ -516,6 +527,7 @@ def showSpecificJson(category, item):
 
 @app.route("/catalog.json")
 def showJson():
+    DBSession = sessionmaker(bind=engine)
     session = DBSession()
 
     categories = session.query(Category).all()
@@ -524,6 +536,5 @@ def showJson():
 
 
 if __name__ == '__main__':
-    app.secret_key = "super secret key"
     app.debug = True
-    app.run(host="0.0.0.0", port=5000)
+    app.run()
