@@ -9,8 +9,6 @@ The following  REST endpoints are also implemented to provide all information in
 
 ## How to access
 This app can be accessed using `https://34.228.186.63.xip.io/catalog/`
-Public IP address is `34.228.186.63`
-SSH port is `2200`
 
 ## Deployment details
 
@@ -37,7 +35,3 @@ SSH port is `2200`
 - A configuration file `CatalogApp.config` is created
 - Enabled HTTPS using Let's Encrypt
 - Redirect urls are added to Google and Facebook
-
-### Resources
-- `https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps`
-- `https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-16-04`
